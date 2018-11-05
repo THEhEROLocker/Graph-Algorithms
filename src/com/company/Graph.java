@@ -1,6 +1,8 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.stream.Stream;
 
 public class Graph {
     private ArrayList<Vertex> adjacencyList;
@@ -31,8 +33,8 @@ public class Graph {
         adjacencyList.get(indexTo).insertEdge(new Edge(adjacencyList.get(indexTo),adjacencyList.get(indexFrom),weight));
     }
 
-    public void depthFirstSearch(){
-        depthFirstSearch(adjacencyList.get(0));
+    public void depthFirstSearch(String vertexFrom){
+        depthFirstSearch(adjacencyList.get(adjacencyList.indexOf(new Vertex(vertexFrom))));
     }
 
     private void depthFirstSearch(Vertex start){
@@ -42,6 +44,28 @@ public class Graph {
         for(Edge neighbor:start.getConnections()){
             if(!neighbor.getTo().isVisited()){
                 depthFirstSearch(neighbor.getTo());
+            }
+        }
+    }
+
+    public void breadthFirstSearch(){
+        breadthFirstSearch(adjacencyList.get(0));
+    }
+
+    private void breadthFirstSearch(Vertex start){
+        ArrayList<Vertex> queue = new ArrayList<>();
+
+        queue.add(start);
+
+        while(queue.size() != 0 ) {
+            Vertex top = queue.get(0);
+            queue.remove(0);
+            top.setVisited();
+            System.out.println(top.getName());
+
+            for (Edge connnection : top.getConnections()) {
+                if(!connnection.getTo().isVisited() && !queue.contains(connnection.getTo()))
+                    queue.add(connnection.getTo());
             }
         }
     }
