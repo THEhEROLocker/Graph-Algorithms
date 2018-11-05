@@ -21,7 +21,7 @@ public class Main {
         graph.insertEdge("6","7",1);
         graph.insertEdge("7","8",7);
 
-        return;
+        graph.depthFirstSearch();
 
     }
 }

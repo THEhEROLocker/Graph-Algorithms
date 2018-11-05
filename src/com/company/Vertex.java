@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Vertex {
     private String name;
     private ArrayList<Edge> connections;
+    private boolean visited;
 
     Vertex(){
         this.name = null;
@@ -22,6 +23,18 @@ public class Vertex {
 
     public String getName() {
         return name;
+    }
+
+    public ArrayList<Edge> getConnections() {
+        return connections;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited() {
+        this.visited = true;
     }
 
     @Override
