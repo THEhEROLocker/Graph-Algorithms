@@ -22,6 +22,7 @@ public class Main {
         graph.insertEdge("7","8",7);
 
         // graph.depthFirstSearch("7");
-        // graph.breadthFirstSearch();
+        // graph.breadthFirstSearch("0");
+        graph.displayGraph();
     }
 }

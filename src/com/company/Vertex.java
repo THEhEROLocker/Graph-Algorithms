@@ -37,6 +37,12 @@ public class Vertex {
         this.visited = true;
     }
 
+    public void display(){
+        for(int i=0; i< connections.size(); ++i){
+            System.out.print("("+connections.get(i).getTo().getName() + " " + connections.get(i).getWeight()+ ")");
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -48,8 +48,8 @@ public class Graph {
         }
     }
 
-    public void breadthFirstSearch(){
-        breadthFirstSearch(adjacencyList.get(0));
+    public void breadthFirstSearch(String from){
+        breadthFirstSearch(adjacencyList.get(adjacencyList.indexOf(new Vertex(from))));
     }
 
     private void breadthFirstSearch(Vertex start){
@@ -69,4 +69,23 @@ public class Graph {
             }
         }
     }
+
+    public void primsAlgorithm(String start){
+        primsAlgorithm(adjacencyList.get(adjacencyList.indexOf(new Vertex(start))));
+    }
+
+    private void primsAlgorithm(Vertex start){
+        ArrayList<Vertex> minimumSpanningTree = new ArrayList<>();
+
+
+    }
+
+    public void displayGraph(){
+        for(int i = 0; i<adjacencyList.size(); ++i){
+            System.out.print(adjacencyList.get(i).getName() + " ");
+            adjacencyList.get(i).display();
+            System.out.println();
+        }
+    }
+
 }
