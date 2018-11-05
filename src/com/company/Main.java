@@ -24,5 +24,8 @@ public class Main {
         // graph.depthFirstSearch("7");
         // graph.breadthFirstSearch("0");
         graph.displayGraph();
+        Graph minimumSpanningTree = graph.primsAlgorithm("0");
+        System.out.println();
+        minimumSpanningTree.displayGraph();
     }
 }

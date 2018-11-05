@@ -70,14 +70,35 @@ public class Graph {
         }
     }
 
-    public void primsAlgorithm(String start){
-        primsAlgorithm(adjacencyList.get(adjacencyList.indexOf(new Vertex(start))));
+    public Graph primsAlgorithm(String start){
+        return primsAlgorithm(adjacencyList.get(adjacencyList.indexOf(new Vertex(start))));
     }
 
-    private void primsAlgorithm(Vertex start){
-        ArrayList<Vertex> minimumSpanningTree = new ArrayList<>();
+    private Graph primsAlgorithm(Vertex start){
+        Graph minimumSpanningTree = new Graph();
+        minimumSpanningTree.insertVertex(start.getName());
 
+        while(minimumSpanningTree.adjacencyList.size()!= adjacencyList.size()){
+            String minimumNameFrom = null;
+            String minimumNameTo = null;
+            int minimumweight = Integer.MAX_VALUE;
+            for(int i=0; i<minimumSpanningTree.adjacencyList.size(); ++i){
+                Vertex value = adjacencyList.get(adjacencyList.indexOf(minimumSpanningTree.adjacencyList.get(i))).getMinimum(minimumSpanningTree.adjacencyList);
+                int weight = Integer.MAX_VALUE;
+                if(value != null) {
+                    weight = adjacencyList.get(adjacencyList.indexOf(minimumSpanningTree.adjacencyList.get(i))).getConnectionWeight(value.getName());
+                }
+                if(weight < minimumweight){
+                    minimumweight = weight;
+                    minimumNameFrom = minimumSpanningTree.adjacencyList.get(i).getName();
+                    minimumNameTo = value.getName();
+                }
+            }
 
+            minimumSpanningTree.insertEdge(minimumNameFrom,minimumNameTo,minimumweight);
+        }
+
+        return minimumSpanningTree;
     }
 
     public void displayGraph(){

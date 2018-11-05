@@ -25,6 +25,15 @@ public class Vertex {
         return name;
     }
 
+    public int getConnectionWeight(String toName){
+        for(int i=0;i<connections.size();++i){
+            if(connections.get(i).getTo().getName().equals(toName)){
+                return connections.get(i).getWeight();
+            }
+        }
+        return 0;
+    }
+
     public ArrayList<Edge> getConnections() {
         return connections;
     }
@@ -41,6 +50,34 @@ public class Vertex {
         for(int i=0; i< connections.size(); ++i){
             System.out.print("("+connections.get(i).getTo().getName() + " " + connections.get(i).getWeight()+ ")");
         }
+    }
+
+    public Vertex getMinimum(ArrayList<Vertex> notInHereAlready){
+        int minimumWeight = Integer.MAX_VALUE;
+        int solutionConnectionIndex = 0;
+
+        for(int i=0;i<connections.size();++i){
+            if(connections.get(i).getWeight() < minimumWeight && isNtOneOfFormTheList(connections.get(i).getTo(),notInHereAlready)){
+                solutionConnectionIndex = i;
+                minimumWeight = connections.get(i).getWeight();
+            }
+        }
+
+        if(minimumWeight == Integer.MAX_VALUE){
+            return null;
+        }
+        else{
+            return new Vertex(connections.get(solutionConnectionIndex).getTo().getName());
+        }
+    }
+
+    public boolean isNtOneOfFormTheList(Vertex thing, ArrayList<Vertex> list){
+        for(int i=0;i<list.size();++i){
+            if(list.get(i).getName().equals(thing.getName())){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
