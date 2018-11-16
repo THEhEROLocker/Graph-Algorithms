@@ -1,7 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Queue;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Graph {
@@ -108,5 +107,47 @@ public class Graph {
             System.out.println();
         }
     }
+
+
+    public void dijkstraAlgorithm(String start){
+        ArrayList<Edge> notVisited= new ArrayList<>();
+        ArrayList<Edge> visited = new ArrayList<>();
+
+        for(Vertex elem: adjacencyList){
+            if(elem.getName().equals(start)){
+                notVisited.add(new Edge(elem,null,0));
+            }
+            else{
+                notVisited.add(new Edge(elem,null,Integer.MAX_VALUE));
+            }
+        }
+
+        Collections.sort(notVisited);
+
+        while(notVisited.size()!=0){
+            Edge smallest = notVisited.get(0);
+            notVisited.remove(0);
+            visited.add(smallest);
+
+
+            for(Edge neighbor:smallest.getFrom().getConnections()){
+                if(visited.indexOf(new Edge(new Vertex(),neighbor.getTo(),1)) == -1){
+                    int newW = neighbor.getWeight()+smallest.getWeight();
+                    int oldW = notVisited.get(notVisited.indexOf(new Edge(new Vertex(), neighbor.getTo(),1))).getWeight();
+
+                    if(newW < oldW){
+                        notVisited.get(notVisited.indexOf(new Edge(new Vertex(), neighbor.getTo(),1))).setWeight(newW);
+                    }
+                }
+            }
+
+            Collections.sort(notVisited);
+
+        }
+        for(Edge elem: visited){
+            System.out.println(elem.getFrom().getName()+ " "+ elem.getWeight());
+        }
+    }
+
 
 }
