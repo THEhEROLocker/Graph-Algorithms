@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -27,6 +29,10 @@ public class Main {
         //Graph minimumSpanningTree = graph.primsAlgorithm("0");
         //System.out.println();
         //minimumSpanningTree.displayGraph();
-        graph.dijkstraAlgorithm("0");
+        ArrayList<DijkstraTable> returned =  graph.dijkstraAlgorithm("8");
+
+        for(DijkstraTable elem: returned){
+            System.out.println(elem.getValue().getName()+ " "+ elem.getPathCostToHere() + " " + elem.getParent().getName());
+        }
     }
 }

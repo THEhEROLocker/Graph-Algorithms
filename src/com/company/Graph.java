@@ -109,7 +109,7 @@ public class Graph {
     }
 
 
-    public void dijkstraAlgorithm(String start){
+    public ArrayList<DijkstraTable> dijkstraAlgorithm(String start){
         ArrayList<DijkstraTable> notVisited= new ArrayList<>();
         ArrayList<DijkstraTable> visited = new ArrayList<>();
 
@@ -122,9 +122,8 @@ public class Graph {
             }
         }
 
-        Collections.sort(notVisited);
-
         while(notVisited.size()!=0){
+            Collections.sort(notVisited);
             DijkstraTable smallest = notVisited.get(0);
             notVisited.remove(0);
             visited.add(smallest);
@@ -142,13 +141,10 @@ public class Graph {
                     }
                 }
             }
-
-            Collections.sort(notVisited);
-
         }
-        for(DijkstraTable elem: visited){
-            System.out.println(elem.getValue().getName()+ " "+ elem.getPathCostToHere() + " " + elem.getParent().getName());
-        }
+
+
+        return visited;
     }
 
 
