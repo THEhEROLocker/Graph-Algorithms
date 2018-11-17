@@ -1,6 +1,6 @@
 package com.company;
 
-public class Edge implements Comparable {
+public class Edge {
     private Vertex from;
     private Vertex to;
     private int weight;
@@ -32,32 +32,4 @@ public class Edge implements Comparable {
         return weight;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Edge)) return false;
-
-        Edge edge = (Edge) o;
-
-        return (getTo() != null ? getTo().equals(edge.getFrom()) : edge.getFrom() != null);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1;
-    }
-
-    @Override
-    public int compareTo(Object comparestu) {
-        return this.weight - ((Edge) comparestu).getWeight();
-    }
-
-    @Override
-    public String toString() {
-        return "Edge{" +
-                "from=" + from +
-                ", to=" + to +
-                ", weight=" + weight +
-                '}';
-    }
 }

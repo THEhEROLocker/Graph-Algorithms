@@ -110,33 +110,35 @@ public class Graph {
 
 
     public void dijkstraAlgorithm(String start){
-        ArrayList<Edge> notVisited= new ArrayList<>();
-        ArrayList<Edge> visited = new ArrayList<>();
+        ArrayList<DijkstraTable> notVisited= new ArrayList<>();
+        ArrayList<DijkstraTable> visited = new ArrayList<>();
 
         for(Vertex elem: adjacencyList){
             if(elem.getName().equals(start)){
-                notVisited.add(new Edge(elem,null,0));
+                notVisited.add(new DijkstraTable(elem,new Vertex(),0));
             }
             else{
-                notVisited.add(new Edge(elem,null,Integer.MAX_VALUE));
+                notVisited.add(new DijkstraTable(elem,null,Integer.MAX_VALUE));
             }
         }
 
         Collections.sort(notVisited);
 
         while(notVisited.size()!=0){
-            Edge smallest = notVisited.get(0);
+            DijkstraTable smallest = notVisited.get(0);
             notVisited.remove(0);
             visited.add(smallest);
 
 
-            for(Edge neighbor:smallest.getFrom().getConnections()){
-                if(visited.indexOf(new Edge(new Vertex(),neighbor.getTo(),1)) == -1){
-                    int newW = neighbor.getWeight()+smallest.getWeight();
-                    int oldW = notVisited.get(notVisited.indexOf(new Edge(new Vertex(), neighbor.getTo(),1))).getWeight();
+            for(Edge neighbor: adjacencyList.get(adjacencyList.indexOf(smallest.getValue())).getConnections()){
+                if(visited.indexOf(new DijkstraTable(neighbor.getTo(),new Vertex(),1)) == -1){
+                    int newW = neighbor.getWeight()+smallest.getPathCostToHere();
+                    int oldW = notVisited.get(notVisited.indexOf(new DijkstraTable(neighbor.getTo(),new Vertex(),1))).getPathCostToHere();
 
                     if(newW < oldW){
-                        notVisited.get(notVisited.indexOf(new Edge(new Vertex(), neighbor.getTo(),1))).setWeight(newW);
+                        DijkstraTable v =  notVisited.get(notVisited.indexOf(new DijkstraTable(neighbor.getTo(),new Vertex(),1)));
+                        v.setPathCostToHere(newW);
+                        v.setParent(smallest.getValue());
                     }
                 }
             }
@@ -144,8 +146,8 @@ public class Graph {
             Collections.sort(notVisited);
 
         }
-        for(Edge elem: visited){
-            System.out.println(elem.getFrom().getName()+ " "+ elem.getWeight());
+        for(DijkstraTable elem: visited){
+            System.out.println(elem.getValue().getName()+ " "+ elem.getPathCostToHere() + " " + elem.getParent().getName());
         }
     }
 
