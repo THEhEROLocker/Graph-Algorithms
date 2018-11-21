@@ -15,7 +15,7 @@ public class Graph {
         adjacencyList.add(newVertex);
     }
 
-    public void insertEdge(String vertexNameFrom, String vertexNameTo, int weight){
+    public void insertEdge(String vertexNameFrom, String vertexNameTo, int weight, boolean undirected){
         int indexFrom = adjacencyList.indexOf(new Vertex(vertexNameFrom));
         if(indexFrom == -1){
             insertVertex(vertexNameFrom);
@@ -29,7 +29,10 @@ public class Graph {
         }
 
         adjacencyList.get(indexFrom).insertEdge(new Edge(adjacencyList.get(indexFrom),adjacencyList.get(indexTo),weight));
-        adjacencyList.get(indexTo).insertEdge(new Edge(adjacencyList.get(indexTo),adjacencyList.get(indexFrom),weight));
+
+        if(undirected) {
+            adjacencyList.get(indexTo).insertEdge(new Edge(adjacencyList.get(indexTo), adjacencyList.get(indexFrom), weight));
+        }
     }
 
     public void depthFirstSearch(String vertexFrom){
@@ -94,7 +97,7 @@ public class Graph {
                 }
             }
 
-            minimumSpanningTree.insertEdge(minimumNameFrom,minimumNameTo,minimumweight);
+            minimumSpanningTree.insertEdge(minimumNameFrom,minimumNameTo,minimumweight,true);
         }
 
         return minimumSpanningTree;
@@ -143,8 +146,36 @@ public class Graph {
             }
         }
 
-
         return visited;
+    }
+
+    public ArrayList<DijkstraTable> bellmanFordAlgorithm(String start){
+        ArrayList<DijkstraTable> result = new ArrayList<>();
+
+        for(Vertex elem: adjacencyList){
+            if(elem.getName().equals(start)){
+                result.add(new DijkstraTable(elem,new Vertex(),0));
+            }
+            else{
+                result.add(new DijkstraTable(elem,null,Integer.MAX_VALUE));
+            }
+        }
+
+        for(int i=0; i< adjacencyList.size(); ++i){
+            for(Vertex elem: adjacencyList){
+                for(Edge ed:elem.getConnections()){
+                    int weight = ed.getWeight();
+                    int ValueFrom = result.get(result.indexOf(new DijkstraTable(ed.getFrom(),new Vertex(),1))).getPathCostToHere();
+                    int ValueTo = result.get(result.indexOf(new DijkstraTable(ed.getTo(),new Vertex(),1))).getPathCostToHere();
+
+                    if(ValueFrom != Integer.MAX_VALUE && ValueFrom+weight < ValueTo){
+                        result.get(result.indexOf(new DijkstraTable(ed.getTo(),new Vertex(),1))).setPathCostToHere(ValueFrom + weight);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
 
